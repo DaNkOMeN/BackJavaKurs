@@ -1,0 +1,16 @@
+//Потом удалить надо
+
+table {border: 1px solid grey;} 
+th {border: 1px solid grey;}
+td {border: 1px solid grey;}
+
+table{
+    text-align: left; // Для выравнивания содержимого таблицы по центру по горизонтали
+    vertical-align: middle; // Для выравнивания содержимого таблицы по центру по вертикали
+    margin: auto;
+    width: 100%;
+}
+
+input{
+    text-align: center;
+}
