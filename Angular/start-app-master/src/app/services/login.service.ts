@@ -30,7 +30,32 @@ export class LoginService {
       login: login,
       password: password
     };
-    return this.restService.doCall('doLogin', params)
+    return this.restService.doCall('doLogin', params, '/rest/')
+      .pipe(
+        map((res) => {
+          this.userName = res.userName;
+          this.token = res.token;
+          this.sessionService.setSessionParam('userName', this.userName);
+          this.sessionService.setSessionParam('token', this.token);
+          console.log('userName', this.userName);
+          console.log('token', this.token);
+          return res;
+        })
+      );
+  }
+
+  public doRegistration(email: string, password: string, login: string, teacher: boolean) {
+    console.log('login: ' + login);
+    console.log('password: ' + password);
+    console.log('email: ' + email);
+    console.log('teacher: ' + teacher);
+    const params = {
+      login: login,
+      password: password,
+      email: email,
+      teacher: teacher
+    };
+    return this.restService.doCall('doRegistration', params, '/rest/')
       .pipe(
         map((res) => {
           this.userName = res.userName;

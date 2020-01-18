@@ -14,6 +14,7 @@ import { LoginService } from './services/login.service';
 import { AuthGuard } from './services/auth.guard';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { CheckboxModule, WavesModule, ButtonsModule } from 'angular-bootstrap-md'
 
 @NgModule({
   declarations: [
@@ -29,7 +30,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
     BrowserAnimationsModule,
     HttpClientModule,
     NgxWebstorageModule.forRoot(),
-    NgSelectModule
+    NgSelectModule,
+    CheckboxModule, 
+    WavesModule, 
+    ButtonsModule
   ],
   providers: [
     RestService,

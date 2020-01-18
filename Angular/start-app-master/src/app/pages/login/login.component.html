@@ -1,29 +1,66 @@
 <form #f="ngForm" class="container">
+  <div class="login-Form">
+  <div style="padding: 10px; padding-top: 15px; 
+                    padding-bottom: 15px;">
 
-  <div class="row mt-3">
-    <div class="col-12 col-md-4">
+    <div [hidden]="!registration">
       <input-field name="login"
                    placeholder="Логин"
                    type="text"
                    [required]="true"
                    [(ngModel)]="login"></input-field>
     </div>
-  </div>
 
-  <div class="row mt-3">
-    <div class="col-12 col-md-4">
+    <div [hidden]="!registration" style = "padding-left: 30px; padding-bottom: 15px;">
+      <mdb-checkbox [default]="false" 
+      [(ngModel)]="teacher" name="teacher">Вы преподаватель?
+      </mdb-checkbox>
+    </div>
+
+    <div>
+      <input-field name="email"
+                   placeholder="email"
+                   type="text"
+                   [required]="true"
+                   [(ngModel)]="email"></input-field>
+    </div>
+
+    <div>
       <input-field name="password"
                    placeholder="Пароль"
                    type="password"
                    [required]="true"
                    [(ngModel)]="password"></input-field>
     </div>
-  </div>
 
-  <div class="row mt-3">
-    <div class="col-12 col-md-12">
-      <button [disabled]="!f.valid" type="button" class="btn btn-primary" (click)="doLogin()">Войти</button>
+    <div [hidden]="!registration">
+      <input-field name="repeat_password"
+                   placeholder="Поторите пароль"
+                   type="password"
+                   [required]="true"
+                   [(ngModel)]="password2"></input-field>
+    </div>
+
+    <div>
+      <table>
+        <tr>
+          <td>
+          <button [hidden]="registration" type="button" 
+                    class="btn btn-primary" (click)="doLogin()">Войти</button>
+          <button [hidden]="!registration" [disabled]="!f.valid" type="button" 
+                    class="btn btn-primary" (click)="doRegistration()">Зарегистрироваться</button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="custom-control custom-switch">
+              <input type="checkbox" class="custom-control-input" id="customSwitches" 
+                          name ="registration" [(ngModel)]="registration">
+              <label class="custom-control-label" for="customSwitches">Регистрация</label>
+            </div>
+        </tr>
+      </table>
     </div>
   </div>
-
+  </div>
 </form>

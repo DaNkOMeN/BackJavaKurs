@@ -18,8 +18,8 @@ export class RestService {
    * @param methodName - имя метода
    * @param params - параметры
    */
-  public doCall(methodName: string, params: any) {
-    const url = RestService.DEFAULT_PATH + methodName;
+  public doCall(methodName: string, params: any, path: string) {
+    const url = path + methodName;
     console.log('calling ' + methodName + ' with params: ', params);
     const options = {
       headers: this.jsonHeaders,

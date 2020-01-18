@@ -78,18 +78,30 @@
       </div>
       <div style = "height: 25px;"></div>
       <div style = "width: 250px;"> 
+          <select class="browser-default custom-select" [(ngModel)]="day" name = "day">
+            <option value="0" selected>День</option>
+            <option value="1">Понедельник</option>
+            <option value="2">Втоник</option>
+            <option value="3">Среда</option>
+            <option value="4">Четверг</option>
+            <option value="5">Пятница</option>
+            <option value="6">Суббота</option>
+            <option value="7">Воскресение</option>
+          </select>
+      </div> 
+      <div style = "height: 25px;"></div>
+      <div style = "width: 250px;"> 
           <select class="browser-default custom-select" [(ngModel)]="para" name = "para">
             <option value="0" selected>Пара</option>
-            <option value="1">Первая</option>
-            <option value="2">Вторая</option>
-            <option value="3">Третья</option>
-            <option value="4">Четвертая</option>
-            <option value="5">Пятая</option>
-            <option value="6">Шестая</option>
-            <option value="7">Седьмая</option>
-            <option value="8">Восьмая</option>
-            <option value="9">Обед</option>
-            <option value="10">До первой</option>
+            <option value="1">Первая 8:30 - 10:15</option>
+            <option value="2">Вторая 10:25 - 11:50</option>
+            <option value="3">Третья 12:40 - 14:15</option>
+            <option value="4">Четвертая 14:25 - 16:00</option>
+            <option value="5">Пятая 16:10 - 17:45</option>
+            <option value="6">Шестая 18:00 - 19:25</option>
+            <option value="7">Седьмая 19:35 - 21:00</option>
+            <option value="8">Обед 11:50 - 12:40</option>
+            <option value="9">До первой 7:00 - 8:30</option>
           </select>
       </div> 
       <div style = "height: 25px;"></div>

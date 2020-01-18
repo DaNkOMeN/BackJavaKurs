@@ -11,11 +11,13 @@ import javax.ws.rs.core.MediaType;
  * @author skale
  */
 public class RestResorce {
+       
     @POST
     public LoginResponce doLogin(LoginRequest req) {
         LoginResponce responce = new LoginResponce();
         responce.SetLogin(req.GetLogin());
         responce.SetToken(req.getPassword()+"!!!");
+        System.out.println("/t/t/t/t/t Пришел запрос на логин ");
         return responce;
     }
 

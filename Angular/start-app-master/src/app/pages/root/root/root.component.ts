@@ -21,6 +21,7 @@ export class RootComponent implements OnInit {
   private cabinet = 101;
   private para = 0;
   private corp = 0;
+  private day = 0;
   private weeks: boolean[] = [false, false, false, false, false, false, false, false, false, 
                               false, false, false, false, false, false, false, false, false];
 
@@ -46,7 +47,8 @@ getSelectedValues(event: any) {
                 " "+this.Group+
                 " "+this.cabinet+
                 " "+this.para+
-                " "+this.corp
+                " "+this.corp+
+                " "+this.day
                 );
   }
 
