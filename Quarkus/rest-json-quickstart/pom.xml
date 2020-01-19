@@ -58,6 +58,26 @@
     </dependency>
 
     <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi</artifactId>
+      <version>3.17</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-ooxml</artifactId>
+        <version>3.17</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-multipart-provider -->
+    <dependency>
+      <groupId>org.jboss.resteasy</groupId>
+      <artifactId>resteasy-multipart-provider</artifactId>
+      <version>4.4.2.Final</version>
+    </dependency>
+
+
+    <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-jdbc-h2</artifactId>
     </dependency>
@@ -65,6 +85,15 @@
           <groupId>io.quarkus</groupId>
           <artifactId>quarkus-hibernate-orm-panache</artifactId>
       </dependency>
+
+
+    <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
+    <dependency>
+      <groupId>io.jsonwebtoken</groupId>
+      <artifactId>jjwt</artifactId>
+      <version>0.9.1</version>
+    </dependency>
+
 
   </dependencies>
   <build>
