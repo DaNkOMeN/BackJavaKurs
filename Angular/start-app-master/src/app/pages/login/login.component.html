@@ -17,6 +17,15 @@
       </mdb-checkbox>
     </div>
 
+    <div [hidden]="!registration">
+      <input-field name="Group"
+                   placeholder="Группа"
+                   type="text"
+                   [hidden]="teacher"
+                   [required]="!teacher"
+                   [(ngModel)]="group"></input-field>
+    </div>
+
     <div>
       <input-field name="email"
                    placeholder="email"

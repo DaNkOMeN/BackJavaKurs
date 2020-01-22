@@ -11,4 +11,22 @@ package org.acme.rest.json;
  */
 public class User extends RegRquest{
     public String token;
+    public User(){
+}
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public boolean isTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(boolean teacher) {
+        this.teacher = teacher;
+    }
 }

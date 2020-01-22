@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {RestService} from './rest.service';
 import {map} from 'rxjs/operators';
 import {SessionService} from './session.service';
+import { Corp } from '../pages/calculation/calculation/calculation.component';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +31,7 @@ export class LoginService {
       login: login,
       password: password
     };
-    return this.restService.doCall('doLogin', params, '/rest/')
+    return this.restService.doCall('doLogin', params, '/rest/', 'POST')
       .pipe(
         map((res) => {
           this.userName = res.userName;
@@ -44,18 +45,19 @@ export class LoginService {
       );
   }
 
-  public doRegistration(email: string, password: string, login: string, teacher: boolean) {
+  public doRegistration(email: string, password: string, login: string, teacher: boolean, group: string) {
     console.log('login: ' + login);
     console.log('password: ' + password);
     console.log('email: ' + email);
     console.log('teacher: ' + teacher);
     const params = {
       login: login,
+      group: group,
       password: password,
       email: email,
       teacher: teacher
     };
-    return this.restService.doCall('doRegistration', params, '/rest/')
+    return this.restService.doCall('doRegistration', params, '/rest/', 'POST')
       .pipe(
         map((res) => {
           this.userName = res.userName;
@@ -68,5 +70,6 @@ export class LoginService {
         })
       );
   }
+  
 
 }

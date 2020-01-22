@@ -1,31 +1,55 @@
-<form #f="ngForm">
+<form #f="ngForm" class="container" style ="background-color: whitesmoke; padding-left: 20px; padding-right: 20px;">
 
-  <div class="row col-12">
-    <div class="col-md-6">
-      <legend>Расчет</legend>
+  <div>
 
-    </div>
+    <select class="browser-default custom-select" name = "corp" [(ngModel)]="guides_index" (click)="corpsCount = 1">
+      <option *ngFor="let guide_ of guides_" value = "{{guide_.id}}"> {{guide_.name}}</option>
+    </select>
+
+  <label>Добавление элемента в справочник корпусов</label>
+    <table><tr>
+      <td>
+        <input class="form-control" name="newCorp" 
+              placeholder="Новый корпус" type="number" max="{{guides_[guides_index-1].lines.length-1}}" 
+              min="0" [(ngModel)]="corpsCount">
+        <div style = "height: 10px;"></div>
+      </td>
+      <td>
+        <input class="form-control" name="newCorpId" 
+              placeholder="Новый корпус" type="text" 
+              [(ngModel)]="guides_[guides_index-1].lines[corpsCount].title">
+        <div style = "height: 10px;"></div>
+      </td>
+      <td>
+        <div class="custom-control custom-switch">
+          <input type="checkbox" class="custom-control-input" id="customSwitches" 
+                      name ="enable" [(ngModel)]="guides_[guides_index-1].lines[corpsCount].enable">
+          <label class="custom-control-label" for="customSwitches">Доступен</label>
+        </div>
+      </td>
+    </tr></table>
+    <div>
+        <table><tr>
+        <td style = "width: 270px;"><button class="btn btn-primary" (click)="addCorp()" 
+                              style = "width: 250px;">Добавить элемент</button></td>
+        <td style = "width: 270px;"><button class="btn btn-primary" (click)=" upCorps()" 
+                              style = "width: 250px;">Сохранить</button></td>
+        </tr></table>
+      </div>
+      <div style = "height: 10px;"></div>
+      <table><tr><td style = "width: 150px;">Предпросмотр:</td>
+        <td><select class="browser-default custom-select" name = "corp" >
+          <option *ngFor="let corp of guides_[guides_index-1].lines" value = "{{corp.id}}" [hidden]="!corp.enable"> {{corp.title}}</option>
+        </select></td>
+      </tr></table>
   </div>
 
-  <div class="row col-12">
-    <div class="col-md-6">
-      <input-field placeholder="Параметр1" name="param1" type="text" [required]="true" [(ngModel)]="param1">
-      </input-field>
-    </div>
-    <div class="col-md-6">
-      <input-field placeholder="Параметр2" name="param2" type="number" [required]="true" [(ngModel)]="param2">
-      </input-field>
-    </div>
-    <div class="col-md-6">
-      <ng-select name="testSelect" [(ngModel)]="selectModel" [items]="selectItems" required="true" bindLabel="id"
-        bindValue="title">
-      </ng-select>
-    </div>
+  <div class="form-group">
+    <label for="file">Choose File</label>
+    <input type="file"
+           id="file"
+           (change)="handleFileInput($event.target.files)">
   </div>
 
-  <div class="row col-12">
-    <div class="col-md-12">
-      <button class="btn btn-primary" [disabled]="!f.valid" (click)="onButtonClick()">Рассчитать</button>
-    </div>
-  </div>
+    <button class="btn btn-danger" (click)="uploadFileToActivity()"  style = "width: 50px;">Отправить</button>
 </form>

@@ -15,6 +15,9 @@ public class RegRquest {
     public String passsword;
     public boolean teacher;
 
+    public RegRquest() {
+    }
+
     public String getLogin() {
         return login;
     }

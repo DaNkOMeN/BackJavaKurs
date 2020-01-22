@@ -15,6 +15,7 @@ import { AuthGuard } from './services/auth.guard';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CheckboxModule, WavesModule, ButtonsModule } from 'angular-bootstrap-md'
+import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { CheckboxModule, WavesModule, ButtonsModule } from 'angular-bootstrap-md
     NgSelectModule,
     CheckboxModule, 
     WavesModule, 
-    ButtonsModule
+    ButtonsModule,
+    DataTablesModule
   ],
   providers: [
     RestService,

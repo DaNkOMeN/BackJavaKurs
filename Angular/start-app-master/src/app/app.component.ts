@@ -8,9 +8,9 @@ import {Router} from '@angular/router';
 })
 export class AppComponent {
   title = 'start-app';
-
-  constructor(private router: Router) {
-    this.router.navigate(['/root']);
+  
+constructor(private router: Router) {
+    //this.router.navigate(['/root']);
 }
 
 }

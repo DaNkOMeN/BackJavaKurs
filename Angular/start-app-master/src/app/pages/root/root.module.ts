@@ -6,6 +6,7 @@ import { RootComponent } from './root/root.component';
 import { FormsModule} from '@angular/forms';
 import { FormControlsModule } from 'src/app/core/form-controls/form-controls.module';
 import { CheckboxModule, WavesModule, ButtonsModule } from 'angular-bootstrap-md'
+import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { CheckboxModule, WavesModule, ButtonsModule } from 'angular-bootstrap-md
     RootRoutingModule,
     CheckboxModule, 
     WavesModule, 
-    ButtonsModule
+    ButtonsModule,
+    DataTablesModule
   ]
 })
 export class RootModule { }

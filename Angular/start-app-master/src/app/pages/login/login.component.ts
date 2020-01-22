@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
    */
   public login="Войти";
   public email: string;
+  public group: string;
   public password: string;
   public password2: string;
   public registration = false;
@@ -46,7 +47,7 @@ public doRegistration() {
   if (this.login){
   if( this.password == this.password2 ){
   if (this.email)  {
-  this.loginService.doRegistration(this.email, this.password, this.login, this.teacher)
+  this.loginService.doRegistration(this.email, this.password, this.login, this.teacher, this.group)
     .subscribe((res: any) => {
       if (res.token) {
         this.router.navigate(['/root']);

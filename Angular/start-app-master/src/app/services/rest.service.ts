@@ -18,7 +18,7 @@ export class RestService {
    * @param methodName - имя метода
    * @param params - параметры
    */
-  public doCall(methodName: string, params: any, path: string) {
+  public doCall(methodName: string, params: any, path: string, type: string) {
     const url = path + methodName;
     console.log('calling ' + methodName + ' with params: ', params);
     const options = {
@@ -26,7 +26,7 @@ export class RestService {
       body: params,
       withCredentials: true
     };
-    return this.httpClient.request('POST', url, options)
+    return this.httpClient.request(type, url, options)
       .pipe(map((response) => {
         return this.mapResponse(methodName, response);
       }));

@@ -9,7 +9,7 @@ import {AuthGuard} from './services/auth.guard';
  */
 const routes: Routes = [
     {
-      path: 'login',
+      path: '',
       component: LoginComponent
     },
     {
@@ -19,7 +19,8 @@ const routes: Routes = [
     },
     {
       path: 'calc',
-      loadChildren: () => import('./pages/calculation/calculation.module').then((m => m.CalculationModule))
+      loadChildren: () => import('./pages/calculation/calculation.module').then((m => m.CalculationModule)),
+      //canActivate: [AuthGuard]
     }
   ]
 ;
