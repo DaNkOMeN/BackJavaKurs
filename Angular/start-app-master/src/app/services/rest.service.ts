@@ -20,7 +20,6 @@ export class RestService {
    */
   public doCall(methodName: string, params: any, path: string, type: string) {
     const url = path + methodName;
-    console.log('calling ' + methodName + ' with params: ', params);
     const options = {
       headers: this.jsonHeaders,
       body: params,

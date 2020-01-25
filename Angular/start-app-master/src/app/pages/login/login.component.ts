@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {RestService} from '../../services/rest.service';
 import {LoginService} from '../../services/login.service';
 import {Router} from '@angular/router';
+import { HttpHeaders, HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -20,11 +22,16 @@ export class LoginComponent implements OnInit {
   public password2: string;
   public registration = false;
   public teacher = false;
+  public grups;
+  public role;
+  public err = false;
+  public error;
   constructor(private loginService: LoginService,
-              private router: Router) {
+              private router: Router, private http: HttpClient) {
   }
 
   ngOnInit() {
+    this.load_guide_grups();
   }
 
   /**
@@ -38,6 +45,10 @@ export class LoginComponent implements OnInit {
         if (res.token) {
           this.router.navigate(['/root']);
         }
+      }, error => {
+        console.log(error);
+        this.error = "Не удалось войти "+error.status + " " + error.statusText;
+        this.err = true;
       });
   }
 }
@@ -45,14 +56,51 @@ export class LoginComponent implements OnInit {
 
 public doRegistration() {
   if (this.login){
-  if( this.password == this.password2 ){
-  if (this.email)  {
-  this.loginService.doRegistration(this.email, this.password, this.login, this.teacher, this.group)
-    .subscribe((res: any) => {
-      if (res.token) {
-        this.router.navigate(['/root']);
+    if( this.password == this.password2 ){
+      if (this.email)  {
+        if (this.teacher) this.role = "3";
+        else this.role = "1";
+        this.loginService.doRegistration(this.email, this.password, this.login, this.role, this.group, true)
+          .subscribe((res: any) => {
+            if (res.token) {
+              this.router.navigate(['/root']);
+              }
+            }, error => {
+              console.log(error);
+              this.error = "Не удалось зарегистрироваться "+error.status + " " + error.statusText;
+              this.err = true;
+            });
+          }
         }
-      });
-    }}}
+      else {
+        this.error = "Пароли не совпадают";
+        this.err = true;}
+      }
   }
+  
+  load_guide_grups(){
+    this.load_grups().subscribe(data => {
+    }, (error : HttpErrorResponse) => {
+      console.log(error);
+      this.error = " Не удалось загрузить список групп " + error.status + " " + error.statusText;
+      this.err = true;
+    });
+  }
+
+  load_grups(){
+    const endpoint = '/rest/loadGrups';
+    console.log("GET, /rest/loadGrups ")
+    console.log("Ожидается ответ: {[{id, title, enable}{id, title, enable}... ]}");
+    return this.http
+
+    .get(endpoint, { headers: new HttpHeaders({'Content-Type': 'application/json; charset=UTF-8'})})
+    .pipe(map((res:any) => { 
+      this.grups = res;
+      console.log("Загружен Группы");
+      console.log(this.grups);
+      return true; }));
+  }
+
+
 }
+

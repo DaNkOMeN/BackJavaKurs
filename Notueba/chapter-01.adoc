@@ -1,3 +1,6 @@
+:noname:
+:asciidoctor:
+:filetype: PDF
 :no-header-footer:
 :notitle:
 :doctype: article

@@ -25,12 +25,13 @@ export class LoginService {
    * При нажатии на кнопку "войти"
    */
   public doLogin(login: string, password: string) {
-    console.log('login: ' + login);
-    console.log('password: ' + password);
     const params = {
       login: login,
       password: password
     };
+    console.log("POST /restdoLogin");
+    console.log(params);
+    console.log("Ожидается ответ: {'string' : 'userName'"," 'string' : 'token'}");
     return this.restService.doCall('doLogin', params, '/rest/', 'POST')
       .pipe(
         map((res) => {
@@ -38,25 +39,23 @@ export class LoginService {
           this.token = res.token;
           this.sessionService.setSessionParam('userName', this.userName);
           this.sessionService.setSessionParam('token', this.token);
-          console.log('userName', this.userName);
-          console.log('token', this.token);
           return res;
         })
       );
   }
 
-  public doRegistration(email: string, password: string, login: string, teacher: boolean, group: string) {
-    console.log('login: ' + login);
-    console.log('password: ' + password);
-    console.log('email: ' + email);
-    console.log('teacher: ' + teacher);
+  public doRegistration(email: string, password: string, login: string, role: string, group: string, en: boolean) {
     const params = {
       login: login,
-      group: group,
+      grup: group,
       password: password,
       email: email,
-      teacher: teacher
+      role: role,
+      enable: en
     };
+    console.log("POST /rest/doRegistration");
+    console.log(params);
+    console.log("Ожидается ответ: {'string' : 'userName'"," 'string' : 'token'}");
     return this.restService.doCall('doRegistration', params, '/rest/', 'POST')
       .pipe(
         map((res) => {
@@ -64,8 +63,6 @@ export class LoginService {
           this.token = res.token;
           this.sessionService.setSessionParam('userName', this.userName);
           this.sessionService.setSessionParam('token', this.token);
-          console.log('userName', this.userName);
-          console.log('token', this.token);
           return res;
         })
       );

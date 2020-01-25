@@ -18,11 +18,12 @@ export class AuthGuard implements CanActivate {
    * @param state
    */
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    console.log(next.url[0].path == 'calc');
     let result = false;
     if (this.loginService.token) {
       result = true;
     } else {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/']);
     }
     return result;
   }

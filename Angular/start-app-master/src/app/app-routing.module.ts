@@ -20,7 +20,7 @@ const routes: Routes = [
     {
       path: 'calc',
       loadChildren: () => import('./pages/calculation/calculation.module').then((m => m.CalculationModule)),
-      //canActivate: [AuthGuard]
+      canActivate: [AuthGuard]
     }
   ]
 ;

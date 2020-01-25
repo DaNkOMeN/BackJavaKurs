@@ -20,7 +20,7 @@ import javax.ws.rs.core.MediaType;
  *
  * @author skale
  */
-@Path("/rest/updateCorps")
+@Path("/rest/")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class DBWorking {
@@ -30,62 +30,45 @@ public class DBWorking {
     public Set<GuideLine> kabs = Collections.newSetFromMap(Collections.synchronizedMap(new LinkedHashMap<>()));
 
     public DBWorking() {
-        corps.add(new GuideLine(0, "Корпус", true));
-        corps.add(new GuideLine(1, "Первый", true));
-        corps.add(new GuideLine(2, "Второй", true));
-        corps.add(new GuideLine(3, "Третий", true));
-        
-        kabs.add(new GuideLine(0, "Г-101", true));
-        kabs.add(new GuideLine(1, "Г-102", true));
-        kabs.add(new GuideLine(2, "Г-103", true));
-        kabs.add(new GuideLine(3, "Г-104", true));
-        
-        groups.add(new GuideLine(0, "ИВБ", true));
-        groups.add(new GuideLine(1, "ИВМ", true));
-        groups.add(new GuideLine(2, "ПИБ", true));
-        groups.add(new GuideLine(3, "ПИМ", true));
     }
 
 
     @POST
+    @Path("updateCorps")
     public Set<GuideLine> updateCorps(GuideRequest corps) {
         if ("Корпуса".equals(corps.guideName)) {
         this.corps = Collections.newSetFromMap(Collections.synchronizedMap(new LinkedHashMap<>()));
         for (GuideLine l : corps.lines)
                this.corps.add(l);
-        } else if ("Группы".equals(corps.guideName)) {
-        this.corps = Collections.newSetFromMap(Collections.synchronizedMap(new LinkedHashMap<>()));
-        for (GuideLine l : corps.lines)
-               this.corps.add(l);
+            System.out.println("Новые корпуса прибыли "+this.corps.size());
+        return this.corps;
         } else if ("Кабинеты".equals(corps.guideName)) {
-        this.corps = Collections.newSetFromMap(Collections.synchronizedMap(new LinkedHashMap<>()));
+        this.kabs = Collections.newSetFromMap(Collections.synchronizedMap(new LinkedHashMap<>()));
         for (GuideLine l : corps.lines)
-               this.corps.add(l);
-        }
+               this.kabs.add(l);
+            System.out.println("Новые кабинеты прибыли "+this.kabs.size());
+        return this.kabs;
+        } else if ("Группы".equals(corps.guideName)) {
+        this.groups = Collections.newSetFromMap(Collections.synchronizedMap(new LinkedHashMap<>()));
+        for (GuideLine l : corps.lines)
+               this.groups.add(l);
+            System.out.println("Новые группы прибыли "+this.groups.size());
+        return this.groups;}
+        return null;
+    }
+    
+    @GET 
+    @Path("loadCorps")
+    public Set<GuideLine> loadCorps() {
+        System.out.println("Запрос корпусов "+this.corps.size());
         return this.corps;
     }
     
-    @GET
-    public Set<Data> loadData() {
-        Data temp1 = new Data();
-        Set data = Collections.newSetFromMap(Collections.synchronizedMap(new LinkedHashMap<>()));
-        temp1.id = 1;
-        temp1.name = "Корпуса";
-        temp1.lines = this.corps;
-        data.add(temp1);
-        
-        Data temp2 = new Data();
-        temp2.id = 2;
-        temp2.name = "Группы";
-        temp2.lines = this.groups;
-        data.add(temp2);
-        
-        Data temp3 = new Data();
-        temp3.id = 3;
-        temp3.name = "Кабинеты";
-        temp3.lines = this.kabs;
-        data.add(temp3);
-        return data;
+    @GET 
+    @Path("loadGrups")
+    public Set<GuideLine> loadData() {
+        System.out.println("Запрос групп "+this.groups.size());
+        return  this.groups;
     }
 }
 

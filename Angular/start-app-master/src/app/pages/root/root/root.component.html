@@ -6,19 +6,16 @@
     <tr><td style = "width: 265px;">
   <div>
       <div>
-            <input-field name="Teacher"
-            placeholder="Пеподаватель"
-            type="text"
-            [(ngModel)]="Teacher">
-            </input-field>
+            <select select class="browser-default custom-select" name = "Teacher" [(ngModel)]="Teacher">
+              <option *ngFor="let teacher of teachers" value="{{teacher.id}}">{{teacher.name}}</option>
+            </select>
       </div>
       <div>
-            <input-field name="Group"
-            placeholder="Группа"
-            type="text"
-            [(ngModel)]="Group">
-          </input-field>
+        <select class="browser-default custom-select" [(ngModel)]="group" name = "corp" >
+          <option *ngFor="let grup of grups" value="{{grup.id}}" selected>{{grup.title}}</option>
+        </select>
       </div>
+      
       <div>
         <table  [hidden] = "!showWeeks" style = "width: 250px; text-align: center;">
           <tr>
@@ -111,29 +108,34 @@
       </div> 
       <div style = "height: 25px;"></div>
       <div style = "width: 250px;">
-          <select class="browser-default custom-select" [(ngModel)]="corp" name = "corp">
-            <option value="0" selected>Корпус</option>
-            <option value="1">Главный</option>
-            <option value="2">Первый</option>
-            <option value="3">Второй</option>
-            <option value="4">Третий</option>
-          </select>
+        <select class="browser-default custom-select" [(ngModel)]="current_corp" name = "current_corp">
+          <option *ngFor="let corp of corps" value="{{corp.id}}">{{corp.title}}</option>
+        </select>
       </div>
       <div style = "height: 25px;"></div>
       <div>
-          <input-field name="Cabinet"
-          placeholder="Кабинтет"
-          type="number"
-          [(ngModel)]="cabinet"></input-field>
+        <select select class="browser-default custom-select" name = "current_kab" [(ngModel)]="current_kab">
+          <option *ngFor="let kab of kabs" value="{{kab.id}}">{{kab.corp}} - {{kab.number}}</option>
+        </select>
       </div>
       <div><mdb-checkbox [default]="true" [(ngModel)]="Fill" name="Fill">Свободные</mdb-checkbox></div>
       <div><mdb-checkbox [default]="true" [(ngModel)]="Comp" name="Comp">С компьютером</mdb-checkbox></div>
       <div><mdb-checkbox [default]="true" [(ngModel)]="Proj" name="Proj">С проектором</mdb-checkbox></div>
-  </div>
+      </div>
+      <div>
+          <input-field name="Reason"
+          placeholder="Причина"
+          type="text"
+          [(ngModel)]="reason"></input-field>
+      </div>
+    <div><button class="btn btn-primary" (click)="change_rasp('Загрузить')" style = "width: 100%;">Загрузить расписание</button></div>
+    <div><button class="btn btn-primary" (click)="change_rasp('Занять')" style = "width: 100%;">Занять кабинет</button></div>
+    <div><button class="btn btn-primary" (click)="change_rasp('Освободить')" style = "width: 100%;">Освободить кабинет</button></div>
+
 </td>
 <td style="height: 850x;" >
   <div class="container">
-    <table datatable class="black white-text table-striped table-sm">
+    <table datatable id="table_id1">
       <thead>
         <tr>
           <th class = "teah">Нед.</th>
@@ -143,28 +145,25 @@
           <th class = "teah">Комп.</th>
           <th class = "teah">Проектор</th>         
           <th class = "teah">Занят</th>
-          <th class = "teah">Дополнительно</th>
+          <th class = "teah">Доп-но</th>
         </tr>
       </thead>
       <tbody>
        <tr *ngFor="let les of lessons">
-          <td>{{les.Week}}</td>
-          <td>{{les.Day}}</td>
-          <td>{{les.Para}}</td>
-          <td>{{les.Building_Cab}}</td>
-          <td>{{les.Comp}}</td>
-          <td>{{les.Proj}}</td>
-          <td>{{les.Teacher_Group}}</td>
-          <td>{{les.Dopno}}</td>
+          <td>Неделя</td>
+          <td>День</td>
+          <td>Пара</td>
+          <td>Кабинет</td>
+          <td>Компьютер</td>
+          <td>Проектор</td>
+          <td>Занят</td>
+          <td>Дополнительно</td>
         </tr>
       </tbody>
     </table>
     </div>
-</td>
-</tr>
+    </td>
+  </tr>
 </table>
-
-Результаты в консольку
-<button class="btn btn-primary" (click)="Console()">Init arr</button>
 <div style = "height: 100px;"></div>
 </form>

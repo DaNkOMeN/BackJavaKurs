@@ -12,8 +12,26 @@ package org.acme.rest.json;
 public class RegRquest {
     public String login;
     public String email;
-    public String passsword;
-    public boolean teacher;
+    public String password;
+    public String grup;
+    public String role;
+    public boolean enable;
+
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+    }
+
+    public String getGrup() {
+        return grup;
+    }
+
+    public void setGrup(String grup) {
+        this.grup = grup;
+    }
 
     public RegRquest() {
     }
@@ -34,19 +52,19 @@ public class RegRquest {
         this.email = email;
     }
 
-    public String getPasssword() {
-        return passsword;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasssword(String passsword) {
-        this.passsword = passsword;
+    public void setPassword(String passsword) {
+        this.password = passsword;
     }
 
-    public boolean isTeacher() {
-        return teacher;
+    public String getRole() {
+        return role;
     }
 
-    public void setTeacher(boolean teacher) {
-        this.teacher = teacher;
+    public void setRole(String role) {
+        this.role = role;
     }
 }

@@ -6,6 +6,8 @@ import { CalculationComponent } from './calculation/calculation.component';
 import { FormsModule } from '@angular/forms';
 import { FormControlsModule } from '../../core/form-controls/form-controls.module';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { CheckboxModule, WavesModule, ButtonsModule } from 'angular-bootstrap-md';
+import { DataTablesModule } from 'angular-datatables';
 
 
 @NgModule({
@@ -15,7 +17,11 @@ import { NgSelectModule } from '@ng-select/ng-select';
     CalculationRoutingModule,
     FormsModule,
     FormControlsModule,
-    NgSelectModule
+    NgSelectModule,
+    CheckboxModule, 
+    WavesModule, 
+    ButtonsModule,
+    DataTablesModule
   ]
 })
 export class CalculationModule {

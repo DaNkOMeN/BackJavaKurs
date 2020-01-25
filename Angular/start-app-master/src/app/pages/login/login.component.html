@@ -7,6 +7,7 @@
       <input-field name="login"
                    placeholder="Логин"
                    type="text"
+                   pattern="[а-яА-Я]{6,}"
                    [required]="true"
                    [(ngModel)]="login"></input-field>
     </div>
@@ -17,13 +18,10 @@
       </mdb-checkbox>
     </div>
 
-    <div [hidden]="!registration">
-      <input-field name="Group"
-                   placeholder="Группа"
-                   type="text"
-                   [hidden]="teacher"
-                   [required]="!teacher"
-                   [(ngModel)]="group"></input-field>
+    <div [hidden]="!registration || teacher">
+      <select class="browser-default custom-select" [(ngModel)]="group" name = "grup" [required]="registration && !teacher">
+        <option *ngFor="let grup of grups" value="{{grup.title}}" selected>{{grup.title}}</option>
+      </select>
     </div>
 
     <div>
@@ -46,6 +44,7 @@
       <input-field name="repeat_password"
                    placeholder="Поторите пароль"
                    type="password"
+                   pattern="[A-Za-z0-9]{6,}"
                    [required]="true"
                    [(ngModel)]="password2"></input-field>
     </div>
@@ -67,6 +66,11 @@
                           name ="registration" [(ngModel)]="registration">
               <label class="custom-control-label" for="customSwitches">Регистрация</label>
             </div>
+        </tr>
+        <tr>
+          <td [hidden]="!err">
+            {{error}}
+          </td>
         </tr>
       </table>
     </div>
