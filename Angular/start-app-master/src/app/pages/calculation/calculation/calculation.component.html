@@ -177,11 +177,7 @@
         </tr>
         <tr>
           <td>
-              <div  [hidden]="!users_is_load">
-              <select class="browser-default custom-select" [(ngModel)]="cur_user_grup" name = "grup2" >
-                <option *ngFor="let grup of grups" value="{{grup.id}}">{{grup.title}}</option>
-              </select>
-            </div>
+              Роль
           </td>
           <td>
               <div  [hidden]="!users_is_load">
@@ -223,7 +219,6 @@
             </tbody>
           </table>
         </div>
-
 
         <table>
           <tr style = "width: 100%;">

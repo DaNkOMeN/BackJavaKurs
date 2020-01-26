@@ -60,7 +60,7 @@ public doRegistration() {
       if (this.email)  {
         if (this.teacher) this.role = "3";
         else this.role = "1";
-        this.loginService.doRegistration(this.email, this.password, this.login, this.role, this.group, true)
+        this.loginService.doRegistration(this.email, this.password, this.login, this.role, true)
           .subscribe((res: any) => {
             if (res.token) {
               this.router.navigate(['/root']);

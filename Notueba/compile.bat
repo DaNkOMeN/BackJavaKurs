@@ -1,0 +1,1 @@
+asciidoctorj-2.2.0\bin\asciidoctorj.bat -b pdf Kurs.adoc

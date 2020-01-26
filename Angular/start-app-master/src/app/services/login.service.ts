@@ -44,16 +44,15 @@ export class LoginService {
       );
   }
 
-  public doRegistration(email: string, password: string, login: string, role: string, group: string, en: boolean) {
+  public doRegistration(email: string, password: string, login: string, role: string, en: boolean) {
     const params = {
       login: login,
-      grup: group,
       password: password,
       email: email,
       role: role,
-      enable: en
+      isBlock: en
     };
-    console.log("POST /rest/doRegistration");
+    console.log("POST /rest/login/doRegistration");
     console.log(params);
     console.log("Ожидается ответ: {'string' : 'userName'"," 'string' : 'token'}");
     return this.restService.doCall('doRegistration', params, '/rest/', 'POST')

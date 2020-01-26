@@ -18,12 +18,6 @@
       </mdb-checkbox>
     </div>
 
-    <div [hidden]="!registration || teacher">
-      <select class="browser-default custom-select" [(ngModel)]="group" name = "grup" [required]="registration && !teacher">
-        <option *ngFor="let grup of grups" value="{{grup.title}}" selected>{{grup.title}}</option>
-      </select>
-    </div>
-
     <div>
       <input-field name="email"
                    placeholder="email"

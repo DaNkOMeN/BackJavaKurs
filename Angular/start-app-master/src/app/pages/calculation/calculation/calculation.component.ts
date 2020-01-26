@@ -406,7 +406,7 @@ export class CalculationComponent implements OnInit {
 
   add_toTable_users(){
     this.loginService.doRegistration(this.cur_user_email, this.cur_user_pass, 
-      this.cur_user_login, this.cur_user_role.toString(), this.grups[this.cur_user_grup].title, this.cur_user_en)
+      this.cur_user_login, this.cur_user_role.toString(), this.cur_user_en)
     .subscribe((res: any) => {
       if (res.token) {
       console.log("Успех");
