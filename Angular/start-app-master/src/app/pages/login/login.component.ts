@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.load_guide_grups();
+    //this.load_guide_grups();
   }
 
   /**
