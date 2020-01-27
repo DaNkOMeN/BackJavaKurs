@@ -12,7 +12,7 @@ import { DataTableDirective } from 'angular-datatables';
   styleUrls: ['./calculation.component.scss']
 })
 export class CalculationComponent implements OnInit {
-  
+
   public corps: any[];
   public grups: any[];
   public users: any[];
@@ -21,7 +21,7 @@ export class CalculationComponent implements OnInit {
       action: "nothing",
       corp: {
         id:0,
-        title: "",
+        numberOfHousing: "",
         enable: false
       }
     }
@@ -37,19 +37,19 @@ export class CalculationComponent implements OnInit {
     },
     {
       id: 1,
-      corp: 1,
+      housingNumber: 1,
       number: 114,
-      comp: false,
-      proj: false,
+      computer: false,
+      projector: false,
       enable: true
     }
   ]
   public red_grup = [
     {
       action: "nothing",
-      grup: {
+      groups: {
         id:0,
-        title: "",
+        nameOfGroup: "",
         enable: false
       }
     }
@@ -73,9 +73,9 @@ export class CalculationComponent implements OnInit {
   public current_kab;
   public cur_corp_for_cab;
   public cabinet_number;
-  public comp;
-  public proj;
-  public cur_kab_enable;
+  public cur_kab_comp;
+  public cur_kab_proj;
+  public cur_kab_en;
   public reqF: boolean;
   public corps_is_load = false;
   public grups_is_load = false;
@@ -102,13 +102,15 @@ export class CalculationComponent implements OnInit {
     }
 
   postFile(fileToUpload: File): Observable<boolean> {
-      const endpoint = '/rest/uploadFile';
+      const endpoint = '/rest/main/uploadFile';
       const formData: FormData = new FormData();
-      
+      console.log("File отправлен");
       formData.append('uploadedFile', fileToUpload);
       return this.http
       .post(endpoint, formData, { headers: new HttpHeaders({})})
-      .pipe(map((res) => { return true; }));
+      .pipe(map((res) => {
+        console.log("УСпех");
+        return true; }));
     }
 
   load_guide_corps(t : boolean){
@@ -119,16 +121,18 @@ export class CalculationComponent implements OnInit {
   }
 
   load_corps(t : boolean){
-    const endpoint = '/rest/loadCorps';
-    console.log("GET, /rest/loadCorps")
-    console.log("Ожидается ответ: {[ {id, title, enable}{id, title, enable}... ]}");
+    const endpoint = '/rest/main/getAllHoustings';
+    console.log("GET, /rest/main/getAllHoustings")
+    console.log("Ожидается ответ: {[ {id, numberOfHousing, enable}{id, numberOfHousing, enable}... ]}");
     return this.http
 
     .get(endpoint, { headers: new HttpHeaders({'Content-Type': 'application/json; charset=UTF-8'})})
-    .pipe(map((res:any) => { 
+    .pipe(map((res:any) => {
       this.corps = res;
       console.log("Загружен корпуса");
       console.log(this.corps);
+	  this.current_corp = this.corps[0].id;
+	  this.cur_corp_for_cab = this.corps[0].id;
       this.corps_is_load = t;
       this. AutoReload_corps();
       return true; }));
@@ -142,14 +146,14 @@ export class CalculationComponent implements OnInit {
   }
 
   save_corps(){
-    const endpoint = '/rest/updateCorps';
+    const endpoint = '/rest/main/updateCorps';
     const param =  this.red_corp
-    console.log("POST, /rest/updateCorps");
+    console.log("POST, /rest/main/updateCorps");
     console.log(param);
-    console.log("Ожидается ответ: {[ {id, title, enable}{id, title, enable}... ]}");
+    console.log("Ожидается ответ: {[ {id, numberOfHousing, enable}{id, numberOfHousing, enable}... ]}");
     return this.http
     .post(endpoint, param, { headers: new HttpHeaders({'Content-Type': 'application/json; charset=UTF-8'})})
-    .pipe(map((res:any) => { 
+    .pipe(map((res:any) => {
       this.corps = res;
       console.log("Ответ на POST");
       console.log(this.corps);
@@ -158,7 +162,7 @@ export class CalculationComponent implements OnInit {
           action: "nothing",
           corp: {
             id:0,
-            title: "",
+            numberOfHousing: "",
             enable: false
           }
         }
@@ -168,24 +172,32 @@ export class CalculationComponent implements OnInit {
       return true; }));
   }
 
+private i;
+private m;
   save_toTable_corps(){
-    this.corps[this.current_corp] = {
-      id: this.corps[this.current_corp].id,
-      title: this.cur_cor_title,
+	 this.i = 0;
+	this.corps.forEach(element =>
+	{
+		if (element.id == this.current_corp) this.m = this.i;
+		this.i++;
+	});
+    this.corps[this.m] = {
+      id: this.current_corp,
+      numberOfHousing: this.cur_cor_title,
       enable: this.cur_corp_en
-    }    
+    }
     this.red_corp[this.red_corp_action_count] = {
       action: "nothing",
       corp: {
         id:0,
-        title: "",
+        numberOfHousing: "",
         enable: false
       }
     }
-    this.red_corp[this.red_corp_action_count].action = "Редактирование";
-    this.red_corp[this.red_corp_action_count].corp = this.corps[this.corps.length-1];
-    this.red_corp_action_count++;
     this.red_corp.length++;
+    this.red_corp[this.red_corp_action_count].action = "Редактирование";
+    this.red_corp[this.red_corp_action_count].corp = this.corps[this.m];
+    this.red_corp_action_count++;
     console.log(this.corps);
     this.AutoReload_corps();
   }
@@ -194,14 +206,14 @@ export class CalculationComponent implements OnInit {
     this.corps.length = this.corps.length+1;
     this.corps[this.corps.length-1] = {
       id: this.corps.length-1,
-      title: this.cur_cor_title,
+      numberOfHousing: this.cur_cor_title,
       enable:this.cur_corp_en
     }
     this.red_corp[this.red_corp_action_count] = {
       action: "nothing",
       corp: {
         id:0,
-        title: "",
+        numberOfHousing: "",
         enable: false
       }
     }
@@ -212,7 +224,7 @@ export class CalculationComponent implements OnInit {
     console.log(this.corps);
     this. AutoReload_corps();
   }
- 
+
   load_guide_grups(t: boolean){
     this.load_grups(t).subscribe(data => {
     }, error => {
@@ -221,13 +233,11 @@ export class CalculationComponent implements OnInit {
   }
 
   load_grups(t: boolean){
-    const endpoint = '/rest/loadGrups';
-    console.log("GET, /rest/loadGrups ")
-    console.log("Ожидается ответ: {[{id, title, enable}{id, title, enable}... ]}");
-    return this.http
-
-    .get(endpoint, { headers: new HttpHeaders({'Content-Type': 'application/json; charset=UTF-8'})})
-    .pipe(map((res:any) => { 
+    const endpoint = '/rest/main/getAllGroups';
+    console.log("GET, /rest/main/getAllGroups")
+    console.log("Ожидается ответ: {[{id, nameOfGroups, enable}{id, title, enable}... ]}");
+    return this.http.get(endpoint, { headers: new HttpHeaders({'Content-Type': 'application/json; charset=UTF-8'})})
+    .pipe(map((res:any) => {
       this.grups = res;
       console.log("Загружен Группы");
       console.log(this.grups);
@@ -244,23 +254,23 @@ export class CalculationComponent implements OnInit {
   }
 
   save_grups(){
-    const endpoint = '/rest/updateGrups';
-    const param = this.grups;
-    console.log("POST /rest/updateGrups, ");
+    const endpoint = '/rest/main/updateGroups';
+    const param = this.red_grup;
+    console.log("POST /rest/main/updateGroups, ");
     console.log(param);
-    console.log("Ожидается ответ: {[ {id, title, enable}{id, title, enable}... ]}");
+    console.log("Ожидается ответ: {[ {id, nameOfGroup, enable}{id, nameOfGroup, enable}... ]}");
     return this.http
     .post(endpoint, param, { headers: new HttpHeaders({'Content-Type': 'application/json; charset=UTF-8'})})
-    .pipe(map((res:any) => { 
+    .pipe(map((res:any) => {
       this.grups = res;
       console.log("Ответ группы");
       console.log(this.grups);
       this.red_grup = [
         {
           action: "nothing",
-          grup: {
+          groups: {
             id:0,
-            title: "",
+            nameOfGroup: "",
             enable: false
           }
         }
@@ -270,23 +280,29 @@ export class CalculationComponent implements OnInit {
   }
 
   save_toTable_grups(){
-    this.grups[this.current_grup] = {
-      id: this.grups[this.current_grup].id,
-      title: this.cur_grup_title,
+    this.i = 0;
+    this.grups.forEach(element =>
+    {
+      if (element.id == this.current_grup) this.m = this.i;
+      this.i++;
+    });
+    this.grups[this.m] = {
+      id: this.current_grup,
+      nameOfGroup: this.cur_grup_title,
       enable: this.cur_grup_en
     }
     this.red_grup[this.red_grup_action_count] = {
       action: "nothing",
-      grup: {
+      groups: {
         id:0,
-        title: "",
+        nameOfGroup: "",
         enable: false
       }
     }
-    this.red_grup[this.red_grup_action_count].action = "Редактирование";
-    this.red_grup[this.red_grup_action_count].grup = this.grups[this.grups.length-1];
-    this.red_grup_action_count++;
     this.red_grup.length++;
+    this.red_grup[this.red_grup_action_count].action = "Редактирование";
+    this.red_grup[this.red_grup_action_count].groups = this.grups[this.m];
+    this.red_grup_action_count++;
     this.AutoReload_grups();
   }
 
@@ -294,19 +310,19 @@ export class CalculationComponent implements OnInit {
     this.grups.length = this.grups.length+1;
     this.grups[this.grups.length-1] = {
       id: this.grups.length-1,
-      title: this.cur_grup_title,
+      nameOfGroup: this.cur_grup_title,
       enable:this.cur_grup_en
     }
     this.red_grup[this.red_grup_action_count] = {
       action: "nothing",
-      grup: {
+      groups: {
         id:0,
-        title: "",
+        nameOfGroup: "",
         enable: false
       }
     }
     this.red_grup[this.red_grup_action_count].action = "Добавление";
-    this.red_grup[this.red_grup_action_count].grup = this.grups[this.grups.length-1];
+    this.red_grup[this.red_grup_action_count].groups = this.grups[this.grups.length-1];
     this.red_grup_action_count++;
     this.red_grup.length++;
     this.AutoReload_grups();
@@ -319,7 +335,7 @@ export class CalculationComponent implements OnInit {
     this.dtable = $('#table_id1').DataTable();
     this.dtable.clear();
     this.corps.forEach(element => {
-      this.dtable.row.add([element.id, element.title, element.enable]);
+      this.dtable.row.add([element.id, element.numberOfHousing, element.enable]);
     });
     this.dtable.draw();
   }
@@ -329,7 +345,7 @@ export class CalculationComponent implements OnInit {
     this.dtable = $('#table_id2').DataTable();
     this.dtable.clear();
     this.grups.forEach(element => {
-      this.dtable.row.add([element.id, element.title, element.enable]);
+      this.dtable.row.add([element.id, element.nameOfGroup, element.enable]);
     });
     this.dtable.draw();
   }
@@ -345,16 +361,17 @@ export class CalculationComponent implements OnInit {
   }
 
   load_users(){
-    const endpoint = 'rest/doRegistration';
-    console.log("GET rest/doRegistration")
-    console.log("Ожидается ответ: {[ {id, login, email, password, grup, role, enable}{id, login, email, password, grup, role, enable}... ]}");
+    const endpoint = 'rest/main/getAllUsers';
+    console.log("GET rest/main/getAllUsers")
+    console.log("Ожидается ответ: [ {id, login, email, password, role, enable}{id, login, email, password, role, enable}... ]");
     return this.http
 
     .get(endpoint, { headers: new HttpHeaders({'Content-Type': 'application/json; charset=UTF-8'})})
-    .pipe(map((res:any) => { 
+    .pipe(map((res:any) => {
       this.users = res;
       console.log("Загружен пользователи");
       console.log(this.users);
+	  this.current_user = this.users[0].id;
       this.users_is_load = true;
       this. AutoReload_users();
       return true; }));
@@ -364,7 +381,7 @@ export class CalculationComponent implements OnInit {
     this.dtable = $('#table_id3').DataTable();
     this.dtable.clear();
     this.users.forEach(element => {
-      this.dtable.row.add([element.id, element.login, element.email, element.password, element.grup, element.role, element.enable]);
+      this.dtable.row.add([element.id, element.login, element.email, element.password, element.role, element.block]);
     });
     this.dtable.draw();
   }
@@ -377,13 +394,12 @@ export class CalculationComponent implements OnInit {
   }
 
   toTable_users(){
-    const endpoint = "/rest/changeRegistration";
+    const endpoint = "/rest/main/updateUser";
 
     this.red_user = {
-      id: this.users[this.current_user],
+      id: this.current_user,
       login: this.cur_user_login,
       password: this.cur_user_pass,
-      grup: this.grups[this.cur_user_grup].title,
       email: this.cur_user_email,
       role: this.cur_user_role,
       enable: this.cur_user_en
@@ -394,24 +410,24 @@ export class CalculationComponent implements OnInit {
   console.log("Ожидается ответ: {[{id, login, email, password, grup, role, enable}{id, login, email, password, grup, role, enable}... ]}");
   return this.http
   .post(endpoint, this.red_user, { headers: new HttpHeaders({'Content-Type': 'application/json; charset=UTF-8'})})
-  .pipe(map((res:any) => { 
+  .pipe(map((res:any) => {
     this.users = res;
     console.log("Загружен пользователи");
     console.log(this.users);
     this.users_is_load = true;
     this. AutoReload_users();
-    return true; 
+    return true;
   }));
   }
 
   add_toTable_users(){
-    this.loginService.doRegistration(this.cur_user_email, this.cur_user_pass, 
+    this.loginService.doRegistration(this.cur_user_email, this.cur_user_pass,
       this.cur_user_login, this.cur_user_role.toString(), this.cur_user_en)
     .subscribe((res: any) => {
       if (res.token) {
       console.log("Успех");
       this.load_guide_users();
-      this.load_users;} 
+      this.load_users;}
       }, error => {
         console.log(error);
       });
@@ -425,15 +441,20 @@ load_guide_kabs(){
   });
 }
 load_kabs(){
-    const endpoint = 'rest/loadCabs';
-    console.log("GET rest/loadCabs")
+    const endpoint = 'rest/main/getAllAuditories';
+    console.log("GET rest/main/getAllAuditories")
     console.log("Ожидается ответ: {[ {id, corp, number, comp, proj, enable}{id, corp, number, comp, proj, enable}... ]}");
     return this.http
     .get(endpoint, { headers: new HttpHeaders({'Content-Type': 'application/json; charset=UTF-8'})})
-    .pipe(map((res:any) => { 
+    .pipe(map((res:any) => {
       this.kabs = res;
       console.log("Загружен кабинеты");
       console.log(this.kabs);
+      this.cur_kab_comp = true;
+      this.cur_kab_proj = true;
+      this.cur_kab_en = true;
+      this.current_kab = this.kabs[0].id;
+
       this.kabs_is_load = true;
       this.AutoReload_kabs();
       return true; }));
@@ -442,7 +463,7 @@ AutoReload_kabs(){
   this.dtable = $('#table_id4').DataTable();
   this.dtable.clear();
   this.kabs.forEach(element => {
-    this.dtable.row.add([element.id, element.number, element.corp, element.comp, element.proj, element.enable]);
+    this.dtable.row.add([element.id, element.number, element.housingNumber, element.computer, element.projector, element.enable]);
   });
   this.dtable.draw();
 }
@@ -455,24 +476,24 @@ save_toTable_kabs(act: string){
 }
 
 save_kabs(act: string){
-  const endpoint = 'rest/updateCabs';
-  console.log("POST rest/updateCabs")
+  const endpoint = 'rest/main/updateAuditories';
+  console.log("POST rest/main/updateAuditories")
   const param = {
     action: act,
-    cab: {
+    housingId: this.cur_corp_for_cab,
+    auditory: {
       id: this.current_kab,
-      corp: this.cur_corp_for_cab,
       number: this.cabinet_number,
-      comp: this.comp,
-      proj: this.proj,
-      enable: this.cur_kab_enable
+      computer: this.cur_kab_comp,
+      projector: this.cur_kab_proj,
+      enable: this.cur_kab_en
     }
   }
   console.log(param);
   console.log("Ожидается ответ: {[ {id, corp, number, comp, proj, enable}{id, corp, number, comp, proj, enable}... ]}");
   return this.http
   .post(endpoint, param, { headers: new HttpHeaders({'Content-Type': 'application/json; charset=UTF-8'})})
-  .pipe(map((res:any) => { 
+  .pipe(map((res:any) => {
     this.kabs = res;
     console.log("Загружен кабинеты");
     console.log(this.kabs);
@@ -482,8 +503,4 @@ save_kabs(act: string){
 }
 
 }
-export class Corp{
-  id: number;
-  title: string;
-  enable: boolean
-}
+

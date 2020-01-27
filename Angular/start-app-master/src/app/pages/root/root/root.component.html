@@ -7,12 +7,12 @@
   <div>
       <div>
             <select select class="browser-default custom-select" name = "Teacher" [(ngModel)]="Teacher">
-              <option *ngFor="let teacher of teachers" value="{{teacher.id}}">{{teacher.name}}</option>
+              <option *ngFor="let teacher of teachers" value="{{teacher.id}}">{{teacher.login}}</option>
             </select>
       </div>
       <div>
-        <select class="browser-default custom-select" [(ngModel)]="group" name = "corp" >
-          <option *ngFor="let grup of grups" value="{{grup.id}}" selected>{{grup.title}}</option>
+        <select class="browser-default custom-select" [(ngModel)]="group" name = "group" >
+          <option *ngFor="let grup of grups" value="{{grup.id}}" selected>{{grup.nameOfGroup}}</option>
         </select>
       </div>
       
@@ -108,14 +108,14 @@
       </div> 
       <div style = "height: 25px;"></div>
       <div style = "width: 250px;">
-        <select class="browser-default custom-select" [(ngModel)]="current_corp" name = "current_corp">
-          <option *ngFor="let corp of corps" value="{{corp.id}}">{{corp.title}}</option>
+        <select class="browser-default custom-select" [(ngModel)]="corp" name = "corp">
+          <option *ngFor="let corp of corps" value="{{corp.id}}">{{corp.numberOfHousing}}</option>
         </select>
       </div>
       <div style = "height: 25px;"></div>
       <div>
-        <select select class="browser-default custom-select" name = "current_kab" [(ngModel)]="current_kab">
-          <option *ngFor="let kab of kabs" value="{{kab.id}}">{{kab.corp}} - {{kab.number}}</option>
+        <select select class="browser-default custom-select" name = "cabinet" [(ngModel)]="cabinet">
+          <option *ngFor="let kab of kabs" value="{{kab.id}}">{{kab.housingNumber}} - {{kab.number}}</option>
         </select>
       </div>
       <div><mdb-checkbox [default]="true" [(ngModel)]="Fill" name="Fill">Свободные</mdb-checkbox></div>

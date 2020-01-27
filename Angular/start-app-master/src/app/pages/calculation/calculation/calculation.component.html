@@ -1,4 +1,4 @@
-<form #f="ngForm" class="container" style ="background-color: whitesmoke; 
+<form #f="ngForm" class="container" style ="background-color: whitesmoke;
                       padding-left: 20px; padding-right: 20px; height: 90vh;">
 <table>
   <tr style = "width: 100%;">
@@ -21,7 +21,7 @@
   <tr [hidden]="!corps_is_load">
     <td>
       <select class="browser-default custom-select" [(ngModel)]="current_corp" name = "current_corp">
-        <option *ngFor="let corp of corps" value="{{corp.id}}">{{corp.title}}</option>
+        <option *ngFor="let corp of corps; " value="{{corp.id}}">{{corp.numberOfHousing}}</option>
       </select>
     </td>
     <td>
@@ -83,7 +83,7 @@
     <tr [hidden]="!grups_is_load">
       <td>
         <select class="browser-default custom-select" [(ngModel)]="current_grup" name = "current_grup">
-          <option *ngFor="let grup of grups" value="{{grup.id}}">{{grup.title}}</option>
+          <option *ngFor="let grup of grups" value="{{grup.id}}">{{grup.nameOfGroup}}</option>
         </select>
       </td>
       <td>
@@ -121,8 +121,8 @@
           </tr>
         </tbody>
       </table>
-    </div>      
-      
+    </div>
+
       <table style = "width: 100%;">
         <tr style = "width: 100%;">
           <td colspan = "2">
@@ -177,15 +177,14 @@
         </tr>
         <tr>
           <td>
-              Роль
           </td>
           <td>
               <div  [hidden]="!users_is_load">
               <select class="browser-default custom-select" [(ngModel)]="cur_user_role" name = "role" >
-              <option value="1" selected>Студент</option>
-              <option value="2">Преподаватель</option>
-              <option value="3">Запрос на преподавателя</option>
-              <option value="4">Администратор</option>
+              <option value="student" selected>Студент</option>
+              <option value="teacher">Преподаватель</option>
+              <option value="teacher_request">Запрос на преподавателя</option>
+              <option value="admin">Администратор</option>
               </select>
             </div>
           </td>
@@ -205,14 +204,13 @@
       </table>
         <div class="container" [hidden]="!users_is_load">
           <table id="table_id3" class="display">
-            <thead><tr><th>ID</th><th>Логин</th><th>email</th><th>Пароль</th><th>Группа</th><th>Роль</th><th>Доступен</th></tr></thead>
+            <thead><tr><th>ID</th><th>Логин</th><th>email</th><th>Пароль</th><th>Роль</th><th>Заблокирован</th></tr></thead>
             <tbody>
               <tr>
                 <td>id</td>
                 <td>Логин</td>
                 <td>email</td>
                 <td>pass</td>
-                <td>Группа</td>
                 <td>Роль</td>
                 <td>enable</td>
               </tr>
@@ -224,9 +222,9 @@
           <tr style = "width: 100%;">
             <td>
               <div style = "width: 100%;">
-                <button class="btn btn-primary" (click)="load_guide_kabs(); kabs_is_load = true;" 
+                <button class="btn btn-primary" (click)="load_guide_kabs(); kabs_is_load = true;"
                 style = "width: 100%;" [hidden]="kabs_is_load">Кабинеты</button>
-                <button class="btn btn-danger" (click)="kabs_is_load = false"  
+                <button class="btn btn-danger" (click)="kabs_is_load = false"
                 style = "width: 100%;" [hidden]="!kabs_is_load">Закрыть кабинеты</button>
               </div>
             </td>
@@ -235,7 +233,7 @@
             <tr>
               <td  style = "width: 25%;">
                 <select select class="browser-default custom-select" name = "current_kab" [(ngModel)]="current_kab">
-                  <option *ngFor="let kab of kabs" value="{{kab.id}}">{{kab.corp}} - {{kab.number}}</option>
+                  <option *ngFor="let kab of kabs" value="{{kab.id}}">{{kab.housingNumber}} - {{kab.number}}</option>
                 </select>
               </td>
               <td style = "width: 25%;">
@@ -251,7 +249,7 @@
             <tr>
               <td colspan = "2">
                 <select class="browser-default custom-select" [(ngModel)]="cur_corp_for_cab" name = "current_corp">
-                  <option *ngFor="let corp of corps" value="{{corp.id}}">{{corp.title}}</option>
+                  <option *ngFor="let corp of corps" value="{{corp.id}}">{{corp.numberOfHousing}}</option>
                 </select>
               </td>
               <td colspan = "2">
@@ -299,7 +297,7 @@
     <div class="custom-file">
       <input type="file" class="custom-file-input" id="inputGroupFile01"
         aria-describedby="inputGroupFileAddon01" (change)="handleFileInput($event.target.files)">
-      <label class="custom-file-label" for="inputGroupFile01">{{fileToUpload.name}}</label>
+      <label class="custom-file-label" for="inputGroupFile01"></label>
     </div>
     <button class="btn btn-success" (click)="uploadFileToActivity()">Отправить</button>
   </div>

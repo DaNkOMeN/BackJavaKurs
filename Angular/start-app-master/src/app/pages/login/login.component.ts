@@ -58,8 +58,8 @@ public doRegistration() {
   if (this.login){
     if( this.password == this.password2 ){
       if (this.email)  {
-        if (this.teacher) this.role = "3";
-        else this.role = "1";
+        if (this.teacher) this.role = "teacher_request";
+        else this.role = "student";
         this.loginService.doRegistration(this.email, this.password, this.login, this.role, true)
           .subscribe((res: any) => {
             if (res.token) {

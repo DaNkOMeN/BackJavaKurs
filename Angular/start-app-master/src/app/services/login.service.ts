@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {RestService} from './rest.service';
 import {map} from 'rxjs/operators';
 import {SessionService} from './session.service';
-import { Corp } from '../pages/calculation/calculation/calculation.component';
 
 @Injectable({
   providedIn: 'root'
@@ -26,13 +25,13 @@ export class LoginService {
    */
   public doLogin(login: string, password: string) {
     const params = {
-      login: login,
+      email: login,
       password: password
     };
-    console.log("POST /restdoLogin");
+    console.log("POST /rest/login/doLogin");
     console.log(params);
     console.log("Ожидается ответ: {'string' : 'userName'"," 'string' : 'token'}");
-    return this.restService.doCall('doLogin', params, '/rest/', 'POST')
+    return this.restService.doCall('doLogin', params, '/rest/login/', 'POST')
       .pipe(
         map((res) => {
           this.userName = res.userName;
@@ -55,7 +54,7 @@ export class LoginService {
     console.log("POST /rest/login/doRegistration");
     console.log(params);
     console.log("Ожидается ответ: {'string' : 'userName'"," 'string' : 'token'}");
-    return this.restService.doCall('doRegistration', params, '/rest/', 'POST')
+    return this.restService.doCall('doRegistration', params, '/rest/login/', 'POST')
       .pipe(
         map((res) => {
           this.userName = res.userName;
@@ -66,6 +65,6 @@ export class LoginService {
         })
       );
   }
-  
+
 
 }

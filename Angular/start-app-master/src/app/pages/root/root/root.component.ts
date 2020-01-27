@@ -3,6 +3,7 @@ import {SessionService} from '../../../services/session.service';
 import { DataTableDirective } from 'angular-datatables';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/internal/operators/map';
+import { analyzeAndValidateNgModules } from '@angular/compiler';
 
 @Component({
   selector: 'app-root',
@@ -17,12 +18,13 @@ export class RootComponent implements OnInit {
   private Fill =  false;
   private Comp = false;
   private Proj = false;
-  private Teacher = this.userName;
+  private Teacher;
+  private teachers;
   private group;
   private cabinet;
-  private para = 0;
-  private corp = 0;
-  private day = 0;
+  private para;
+  private corp;
+  private day;
   private kabs;
   public grups;
   public dtable;
@@ -47,6 +49,8 @@ export class RootComponent implements OnInit {
     this.load_guide_kabs();
     this.load_guide_corps();
     this.load_teachers();
+    this.day = 0;
+    this.para = 0;
   }
 
   AutoReload_pars()
@@ -66,9 +70,17 @@ export class RootComponent implements OnInit {
       console.log(error);
     });
   }
-
+  private temp : Set<Number>;
+  private i;
   toTable_pairs(action: string){
     const endpoint = "/rest/lessons";
+    this.temp = new Set<Number>();
+    this.i=0;
+    this.weeks.forEach(element => {
+      if (element = true) this.temp.add(this.i);
+      this.i++;
+    });
+
     this.request = {
       action: action,
       busy: this.Fill,
@@ -80,9 +92,11 @@ export class RootComponent implements OnInit {
       teacher_id: this.Teacher,
       pair: this.para,
       day: this.day,
-      weeks: this.weeks,
+      weeks: this.temp,
       reason: this.reason
   };
+  this.temp.clear();
+  this.i=0;
   console.log("POST /rest/lessons")
   console.log(this.request);
   console.log("Ожидается ответ: {[{id, login, email, password, grup, role, enable}{id, login, email, password, grup, role, enable}... ]}");
@@ -140,8 +154,8 @@ getSelectedValues(event: any) {
   }
 
   load_grups(){
-    const endpoint = '/rest/loadGrups';
-    console.log("GET, /rest/loadGrups ")
+    const endpoint = '/rest/main/getEnableGroups';
+    console.log("GET, /rest/main/getEnableGroups")
     console.log("Ожидается ответ: {[{id, title, enable}{id, title, enable}... ]}");
     return this.http
 
@@ -150,7 +164,7 @@ getSelectedValues(event: any) {
       this.grups = res;
       console.log("Загружен Группы");
       console.log(this.grups);
-      this.group = 0;
+      this.group = this.grups[0].id;
       return true; }));
   }
 
@@ -161,8 +175,8 @@ getSelectedValues(event: any) {
     });
   }
   load_kabs(){
-      const endpoint = 'rest/loadCabs';
-      console.log("GET rest/loadCabs")
+      const endpoint = 'rest/main/getEnableAuditories';
+      console.log("GET rest/main/getEnableAuditories")
       console.log("Ожидается ответ: {[ {id, corp, number, comp, proj, enable}{id, corp, number, comp, proj, enable}... ]}");
       return this.http
       .get(endpoint, { headers: new HttpHeaders({'Content-Type': 'application/json; charset=UTF-8'})})
@@ -170,6 +184,7 @@ getSelectedValues(event: any) {
         this.kabs = res;
         console.log("Загружен кабинеты");
         console.log(this.kabs);
+        this.cabinet = this.kabs[0].id;
         return true; }));
     }
     load_guide_corps(){
@@ -180,9 +195,9 @@ getSelectedValues(event: any) {
     }
   
     load_corps(){
-      const endpoint = '/rest/loadCorps';
-      console.log("GET, /rest/loadCorps")
-      console.log("Ожидается ответ: {[ {id, title, enable}{id, title, enable}... ]}");
+      const endpoint = '/rest/main/getEnableHoustings';
+      console.log("GET, /rest/main/getEnableHoustings")
+      console.log("Ожидается ответ: {[ {id,  numberOfHousing, enable}{id,  numberOfHousing, enable}... ]}");
       return this.http
   
       .get(endpoint, { headers: new HttpHeaders({'Content-Type': 'application/json; charset=UTF-8'})})
@@ -190,6 +205,7 @@ getSelectedValues(event: any) {
         this.corps = res;
         console.log("Загружен корпуса");
         console.log(this.corps);
+        this.corp = this.corps[0].id;
         return true; }));
     }
   
@@ -201,15 +217,16 @@ getSelectedValues(event: any) {
     }
   
     load_teacher(){
-      const endpoint = '/rest/loadTeachers';
-      console.log("GET, /rest/loadTeachers")
+      const endpoint = '/rest/main/getEnableTeachers';
+      console.log("GET, /rest/main/getEnableTeachers")
       console.log("Ожидается ответ: {[{id, name}{id, name}... ]}");
       return this.http
       .get(endpoint, { headers: new HttpHeaders({'Content-Type': 'application/json; charset=UTF-8'})})
       .pipe(map((res:any) => { 
-        this.corps = res;
-        console.log("Загружен корпуса");
-        console.log(this.corps);
+        this.teachers = res;
+        this.Teacher = this.teachers[0].id;
+        console.log("Загружены преподаватели");
+        console.log(this.teachers);
         return true; }));
     }
   

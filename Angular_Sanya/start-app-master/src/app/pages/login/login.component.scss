@@ -1,0 +1,23 @@
+.container{
+    padding: 25%;
+    padding-top: 10%;
+    size: 25%;
+}
+
+.login-Form{
+    /* The image used */
+    background-image: url("./foon.png");
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+}
+
+table{
+    text-align: center; // Для выравнивания содержимого таблицы по центру по горизонтали
+    vertical-align: middle; // Для выравнивания содержимого таблицы по центру по вертикали
+    margin: auto;
+    width: 100%;
+}

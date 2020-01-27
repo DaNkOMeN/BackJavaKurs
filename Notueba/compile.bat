@@ -1,1 +1,1 @@
-asciidoctorj-2.2.0\bin\asciidoctorj.bat -b pdf Kurs.adoc
+asciidoctor-pdf -a pdf-style=style.yml -a pdf-fontsdir=fonts/ Kurs.adoc
